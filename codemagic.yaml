@@ -6,7 +6,7 @@ workflows:
 
     environment:
       integrations:
-        app_store_connect: App Store Connect API Key
+        app_store_connect: AppRunnerAppStoreConnect
       vars:
         BUNDLE_ID: com.apprunner.app
         XCODE_WORKSPACE: ios/AppRunner.xcworkspace
