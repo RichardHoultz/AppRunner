@@ -30,7 +30,7 @@ workflows:
 
       - name: Expo Prebuild (generates iOS native project)
         script: |
-          npx expo prebuild --platform ios --clean --non-interactive
+          CI=1 npx expo prebuild --platform ios --clean
 
       - name: Install CocoaPods
         script: |
