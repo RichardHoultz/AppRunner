@@ -1,0 +1,56 @@
+workflows:
+  ios-release:
+    name: AppRunner iOS Release
+    max_build_duration: 60
+    instance_type: mac_mini_m1
+
+    environment:
+      vars:
+        BUNDLE_ID: com.apprunner.app
+        XCODE_WORKSPACE: ios/AppRunner.xcworkspace
+        XCODE_SCHEME: AppRunner
+      node: 20.12.0
+      xcode: latest
+      cocoapods: default
+
+    triggering:
+      events:
+        - push
+      branch_patterns:
+        - pattern: main
+          include: true
+
+    scripts:
+      - name: Install dependencies
+        script: |
+          npm install
+
+      - name: Expo Prebuild (generates iOS native project)
+        script: |
+          npx expo prebuild --platform ios --clean --non-interactive
+
+      - name: Install CocoaPods
+        script: |
+          cd ios && pod install
+
+      - name: Set up code signing (automatic with App Store Connect API)
+        script: |
+          xcode-project use-profiles
+
+      - name: Build iOS IPA
+        script: |
+          xcode-project build-ipa \
+            --workspace "$XCODE_WORKSPACE" \
+            --scheme "$XCODE_SCHEME"
+
+    artifacts:
+      - build/ios/ipa/*.ipa
+      - /tmp/xcodebuild_logs/*.log
+      - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.dSYM
+
+    publishing:
+      app_store_connect:
+        auth: integration
+        submit_to_testflight: true
+        beta_groups:
+          - Internal Testers
