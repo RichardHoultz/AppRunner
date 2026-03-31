@@ -7,8 +7,8 @@ import {
   useWindowDimensions,
   StatusBar,
 } from 'react-native';
-import { WebView } from 'react-native-webview';
 import ViewShot from 'react-native-view-shot';
+import CrossPlatformWebView from '../components/CrossPlatformWebView';
 import { useNavigation } from '@react-navigation/native';
 import { useAppStore } from '../store/useAppStore';
 import { startScreenshotService, stopScreenshotService } from '../services/screenshotService';
@@ -47,15 +47,7 @@ export default function BrowserScreen() {
       <StatusBar hidden />
       <ViewShot ref={viewShotRef} style={styles.webviewContainer} options={{ format: 'jpg', quality: 0.8 }}>
         {activeEntry?.url ? (
-          <WebView
-            source={{ uri: activeEntry.url }}
-            style={styles.webview}
-            javaScriptEnabled
-            domStorageEnabled
-            allowsInlineMediaPlayback
-            mediaPlaybackRequiresUserAction={false}
-            startInLoadingState={false}
-          />
+          <CrossPlatformWebView uri={activeEntry.url} />
         ) : (
           <View style={styles.empty}>
             <Text style={styles.emptyText}>No URL configured.</Text>
@@ -81,7 +73,6 @@ export default function BrowserScreen() {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#000' },
   webviewContainer: { flex: 1 },
-  webview: { flex: 1 },
   empty: { flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#111' },
   emptyText: { color: '#aaa', fontSize: 18, marginBottom: 20 },
   setupBtn: { backgroundColor: '#0a84ff', paddingHorizontal: 24, paddingVertical: 12, borderRadius: 8 },
