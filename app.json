@@ -5,12 +5,6 @@
     "version": "1.0.0",
     "orientation": "landscape",
     "userInterfaceStyle": "dark",
-    "icon": "./assets/icon.png",
-    "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#000000"
-    },
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.apprunner.app",
@@ -34,7 +28,7 @@
         ]
       }
     },
-    "plugins": [],
+    "plugins": ["react-native-webview"],
     "scheme": "apprunner",
     "platforms": ["ios", "web"]
   }

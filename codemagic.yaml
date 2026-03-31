@@ -17,13 +17,13 @@ workflows:
       events:
         - push
       branch_patterns:
-        - pattern: main
+        - pattern: master
           include: true
 
     scripts:
       - name: Install dependencies
         script: |
-          npm install
+          npm install --legacy-peer-deps
 
       - name: Expo Prebuild (generates iOS native project)
         script: |
@@ -31,7 +31,7 @@ workflows:
 
       - name: Install CocoaPods
         script: |
-          cd ios && pod install
+          cd ios && pod install --repo-update
 
       - name: Set up code signing (automatic with App Store Connect API)
         script: |
